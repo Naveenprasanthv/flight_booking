@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:google-sheets="http://www.mulesoft.org/schema/mule/google-sheets" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/google-sheets http://www.mulesoft.org/schema/mule/google-sheets/current/mule-google-sheets.xsd">
+	<flow name="getFlights" doc:id="c0f47d9e-359b-48e1-8bd1-ef1c0d023929" >
+		<http:listener doc:name="Listener" doc:id="0b509894-ec9b-4166-a462-3d596bac1552" config-ref="flightbooking-httpListenerConfig" path="/bmh-flight"/>
+	</flow>
+</mule>
