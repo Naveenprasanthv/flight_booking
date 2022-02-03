@@ -8,10 +8,10 @@ http://www.mulesoft.org/schema/mule/google-sheets http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="getFlights" doc:id="c0f47d9e-359b-48e1-8bd1-ef1c0d023929" >
-		<db:select doc:id="9a23985f-b018-47d4-af9e-47a42565601e" config-ref="Database_Config">
+		<db:select doc:id="9a23985f-b018-47d4-af9e-47a42565601e" config-ref="Database_Config" doc:name="All Flights">
 			<db:sql ><![CDATA[select * from flights1]]></db:sql>
 		</db:select>
-		<ee:transform doc:name="Transform Message" doc:id="a8d7685d-3e68-4b09-ab8b-beaa6c639c3b" >
+		<ee:transform doc:name="Json Payload" doc:id="a8d7685d-3e68-4b09-ab8b-beaa6c639c3b" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -20,5 +20,78 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="End" doc:id="e395297f-1637-4434-9fb5-6d64345cb823" message="Flow Ended"/>
+	</flow>
+	<flow name="getFlightsByID" doc:id="53ea6587-eacf-49b3-93af-a2fe061aa1b3">
+		<db:select doc:name="GetFlightsByID" doc:id="5cb191a5-d0df-418d-9fb3-9bd208152232" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from flights1 where flightId = :flightId]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{flightId : attributes.uriParams.flightsId}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Json Payload" doc:id="9d848f52-ca43-4a02-99ba-e162639afa3c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="54a9c861-034d-473f-92d6-e46a88c428e0" message="Flow Ended" />
+	</flow>
+	<flow name="getPartners" doc:id="c222bc0a-00bf-4e41-8ff1-ba1776b0e3ba" >
+		<db:select doc:name="All Partners" doc:id="756f40a6-f916-4f50-80f6-87f3bad2fd8c" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from partners]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Json Payload" doc:id="d4766a52-48a6-4bd9-9e0e-56045e28d78e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="2f883345-1dee-4081-9879-2854f1844543" message="Flow Ended"/>
+	</flow>
+	<flow name="getBookings" doc:id="2e623c30-2f16-4f3b-866f-b3e16faf0599" >
+		<db:select doc:name="All bookings" doc:id="9d97b7d3-ee2c-4261-af7a-b5911263a93c" config-ref="Database_Config" >
+			<db:sql ><![CDATA[select * from booking]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Json Payload" doc:id="b0e5e59e-9ff4-447f-81fe-eac9d8a73a04" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="662abbc9-ffe3-4791-a1d5-7a4349783e70" message="Flow Ended" />
+	</flow>
+	<flow name="getPartnersByID" doc:id="e85b349d-2904-4c2c-a87d-70b5e146549a" >
+		<db:select doc:name="GetPartnersByID" doc:id="de4991ad-8ee0-4b83-b755-299b519dcbe2" config-ref="Database_Config" >
+			<db:sql ><![CDATA[select * from partners where partnerId = :partnerId]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{partnerId : attributes.uriParams.partnersId}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Json Payload" doc:id="bcc8a2e9-e932-4bd4-a987-33b02e12ee3f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="7fca8248-ecd4-4414-b9db-bfb5784e0947" message="Flow Ended" />
+	</flow>
+	<flow name="getBookingByID" doc:id="831b1ae5-db9a-4b22-b8cf-b00820ee52ac" >
+		<db:select doc:name="GetBookingByID" doc:id="6b8f4adc-4ac0-428c-b7a4-1d331fc7d13d" config-ref="Database_Config" >
+			<db:sql ><![CDATA[select * from booking where bookingId = :bookingId]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{bookingId : attributes.uriParams.bookingId}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Copy_of_Json Payload" doc:id="524f970b-a783-436a-870d-0f2fcb652321" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Copy_of_End" doc:id="b6dc9a4a-56fa-439e-8b51-6cef2a731b5e" message="Flow Ended" />
 	</flow>
 </mule>

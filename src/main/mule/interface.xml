@@ -292,124 +292,22 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="get:\bookings\(bookingId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="bookingId">attributes.uriParams.'bookingId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  bookingDetails: {
-    value: {
-      flightId: 1,
-      code: "Ind_Del",
-      price: 400.0,
-      departureDate: "2022-07-26",
-      origin: "MAD",
-      destination: "DEL",
-      emptySeats: 150,
-      plane: {
-        planeType: [
-          "Business", 
-          "Economic"
-        ],
-        totalSeats: 150
-      }
-    }
-  },
-  passenger: "Kowshalya",
-  bookingId: 123
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="getBookingByID" doc:id="7ad458eb-46f5-4e3b-aba4-4b32bade07be" name="getBookingByID"/>
     </flow>
     <flow name="get:\bookings:flightbooking-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="GetBookings" doc:id="953ae924-9e48-416c-a064-0ba352149b4a" name="getBookings"/>
     </flow>
     <flow name="get:\flights\(flightsId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="flightsId">attributes.uriParams.'flightsId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  flightId: 1,
-  code: "Ind_Del",
-  price: 400.0,
-  departureDate: "2022-07-26",
-  origin: "MAD",
-  destination: "DEL",
-  emptySeats: 150,
-  plane: {
-    planeType: [
-      "Business", 
-      "Economic"
-    ],
-    totalSeats: 150
-  }
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="c2cc0c37-3d07-499c-aefc-4f582c78d251" name="getFlightsByID"/>
     </flow>
     <flow name="get:\flights:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="c2d59f60-251b-402f-ae41-8543b179117a" name="getFlights"/>
+        <flow-ref doc:name="GetFlights" doc:id="c2d59f60-251b-402f-ae41-8543b179117a" name="getFlights"/>
     </flow>
     <flow name="get:\partners\(partnersId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="partnersId">attributes.uriParams.'partnersId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  partnerId: 123,
-  partnerName: "Indigo",
-  services: [
-    "Economic", 
-    "Business"
-  ],
-  numberOfFlights: 10
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="getPartnersByID" doc:id="bfac59ad-1bed-475f-bbde-fff5fec4c1fc" name="getPartnersByID"/>
     </flow>
     <flow name="get:\partners:flightbooking-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="getPartners" doc:id="6f828bfe-cb30-4dde-9f2b-7e87fa0f85e2" name="getPartners"/>
     </flow>
     <flow name="post:\bookings:application\json:flightbooking-config">
         <ee:transform>
