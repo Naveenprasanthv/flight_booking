@@ -373,19 +373,6 @@ output application/json
     </flow>
     <flow name="get:\flights:flightbooking-config">
         <flow-ref doc:name="Flow Reference" doc:id="c2d59f60-251b-402f-ae41-8543b179117a" name="getFlights"/>
-		<logger level="INFO" doc:name="Logger" doc:id="e8847fe2-18ff-4d05-a0f6-b105c35877c5" message="out of scope"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
     </flow>
     <flow name="get:\partners\(partnersId):flightbooking-config">
         <ee:transform>
