@@ -1,4 +1,11 @@
 http:
   port: "8081"
 
+mysql:
+  server:"sql6.freemysqlhosting.net"
+  dbname:"sql6470089"
+  username:"sql6470089"
+  password:"4eYEIs3lFb"
+  port:"3306"
+
 
