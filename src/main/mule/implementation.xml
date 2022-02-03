@@ -11,6 +11,8 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	</http:listener-config>
 	<flow name="getFlights" doc:id="c0f47d9e-359b-48e1-8bd1-ef1c0d023929" >
 		<http:listener doc:name="Listener" doc:id="660556bb-efd2-4abd-a1fe-3d43273b2504" config-ref="HTTP_Listener_config1" path="/flight"/>
-		<db:select doc:id="9a23985f-b018-47d4-af9e-47a42565601e" config-ref="Database_Config"/>
+		<db:select doc:id="9a23985f-b018-47d4-af9e-47a42565601e" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from Flights]]></db:sql>
+		</db:select>
 	</flow>
 </mule>
