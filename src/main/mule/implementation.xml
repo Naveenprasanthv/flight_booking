@@ -101,7 +101,7 @@ output application/json
 payload]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<db:insert doc:name="Insert" doc:id="c10b4a02-3d9a-48bd-8a3d-ec42f9fde287" >
+		<db:insert doc:name="Insert" doc:id="c10b4a02-3d9a-48bd-8a3d-ec42f9fde287" config-ref="Database_Config">
 			<db:sql ><![CDATA[insert into booking (passenger,flightId) values (:name, :flightId)
 ]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
