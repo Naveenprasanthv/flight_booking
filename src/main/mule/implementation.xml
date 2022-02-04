@@ -22,7 +22,9 @@ payload]]></ee:set-payload>
 		<logger level="INFO" doc:name="End" doc:id="e395297f-1637-4434-9fb5-6d64345cb823" message="Flow Ended"/>
 	</flow>
 	<flow name="postFlights" doc:id="06b591d3-3294-4e2b-a8f8-fdabedc7c9b5" >
-		<db:insert doc:name="New Flight" doc:id="9f7f258a-e6af-47d1-b756-efc4850a2fe8" />
+		<db:insert doc:name="New Flight" doc:id="9f7f258a-e6af-47d1-b756-efc4850a2fe8" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ('Naveen', (select flightId from flights1 where origin='MAD' ));]]></db:sql>
+		</db:insert>
 		<ee:transform doc:name="Json Payload" doc:id="b1798454-5f41-4375-a6da-49fdc5071251" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -63,6 +65,51 @@ payload]]></ee:set-payload>
 		</ee:transform>
 		<logger level="INFO" doc:name="End" doc:id="662abbc9-ffe3-4791-a1d5-7a4349783e70" message="Flow Ended" />
 	</flow>
+	<flow name="postBookings" doc:id="f04f09b7-6595-4677-9da9-dcd8a27695c4">
+		<ee:transform doc:name="Transform Message" doc:id="4865c673-80db-454e-9248-3dc84d616264" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	passenger: payload.passenger,
+	origin: payload.bookingDetails.value.origin,
+	destination: payload.bookingDetails.value.destination,
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:select doc:name="Select" doc:id="368d00de-5d64-4d34-8228-429cfdad4270" config-ref="Database_Config">
+			<db:sql ><![CDATA[select flightId from flights1 where origin= :origin and destination= :destination]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	origin: payload.origin,
+	destination : payload.destination
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="f5486d88-de17-4663-b64d-72e5902582fd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="flightId" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:insert doc:name="Insert" doc:id="c10b4a02-3d9a-48bd-8a3d-ec42f9fde287" >
+			<db:sql ><![CDATA[insert into booking (passenger,flightId) values (:name, :flightId)
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	name : payload.passenger,
+	flightId : vars.flightId
+}]]]></db:input-parameters>
+		</db:insert>
+	</flow>
 	<flow name="getBookingByID" doc:id="831b1ae5-db9a-4b22-b8cf-b00820ee52ac">
 		<db:select doc:name="GetBookingByID" doc:id="6b8f4adc-4ac0-428c-b7a4-1d331fc7d13d" config-ref="Database_Config">
 			<db:sql><![CDATA[select * from booking where bookingId = :bookingId]]></db:sql>
@@ -92,6 +139,21 @@ payload]]></ee:set-payload>
 		</ee:transform>
 		<logger level="INFO" doc:name="End" doc:id="2f883345-1dee-4081-9879-2854f1844543" message="Flow Ended"/>
 	</flow>
+	<flow name="postPartners" doc:id="7d263dfc-fe47-4f07-ab3f-2cdc9bd23823">
+		<db:insert doc:name="New Partner" doc:id="764e40b7-8006-40bc-a67e-df50548ec026" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ('Naveen', (select flightId from flights1 where origin='MAD' ));]]></db:sql>
+		</db:insert>
+		<ee:transform doc:name="Json Payload" doc:id="917a33bf-42a1-43a8-866e-1ae7032dde6e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="519bbc9b-d206-4f28-861d-400b969fb29d" message="Flow Ended" />
+	</flow>
 	<flow name="getPartnersByID" doc:id="e85b349d-2904-4c2c-a87d-70b5e146549a" >
 		<db:select doc:name="GetPartnersByID" doc:id="de4991ad-8ee0-4b83-b755-299b519dcbe2" config-ref="Database_Config" >
 			<db:sql ><![CDATA[select * from partners where partnerId = :partnerId]]></db:sql>
@@ -106,31 +168,5 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="End" doc:id="7fca8248-ecd4-4414-b9db-bfb5784e0947" message="Flow Ended" />
-	</flow>
-	<flow name="postPartners" doc:id="7d263dfc-fe47-4f07-ab3f-2cdc9bd23823" >
-		<db:insert doc:name="New Partner" doc:id="764e40b7-8006-40bc-a67e-df50548ec026" />
-		<ee:transform doc:name="Json Payload" doc:id="917a33bf-42a1-43a8-866e-1ae7032dde6e" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-{
-}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="End" doc:id="519bbc9b-d206-4f28-861d-400b969fb29d" message="Flow Ended"/>
-	</flow>
-	<flow name="postBookings" doc:id="f04f09b7-6595-4677-9da9-dcd8a27695c4" >
-		<db:insert doc:name="New Booking" doc:id="fb07b43c-2d55-4c82-a6f3-a198b6f4e9ce" />
-		<ee:transform doc:name="Json Payload" doc:id="e13a813a-4bec-49bc-8914-df7926121448" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-{
-}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="End" doc:id="a9a85714-bf13-44fd-a12a-9b2c4aa08c83" message="Flow Ended"/>
 	</flow>
 </mule>

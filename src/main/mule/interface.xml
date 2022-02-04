@@ -310,18 +310,7 @@ output application/json
         <flow-ref doc:name="getPartners" doc:id="6f828bfe-cb30-4dde-9f2b-7e87fa0f85e2" name="getPartners"/>
     </flow>
     <flow name="post:\bookings:application\json:flightbooking-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="779b5c6b-d465-4ddc-8a77-002a137c6089" name="postBookings"/>
     </flow>
     <flow name="post:\bookings:application\xml:flightbooking-config">
         <ee:transform>
