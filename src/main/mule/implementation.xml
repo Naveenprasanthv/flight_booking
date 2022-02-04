@@ -82,9 +82,8 @@ output application/json
 				<ee:set-variable variableName="passenger" ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-	passenger: payload.passenger
-}]]></ee:set-variable>
+payload.passenger
+]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<db:select doc:name="Select" doc:id="368d00de-5d64-4d34-8228-429cfdad4270" config-ref="Database_Config">
@@ -112,7 +111,7 @@ payload.flightId]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<db:insert doc:name="Insert" doc:id="c10b4a02-3d9a-48bd-8a3d-ec42f9fde287" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into booking (passenger,flightId) values (:name,:flightId )
+			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ( :name , :flightId )
 ]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	name : vars.passenger,
