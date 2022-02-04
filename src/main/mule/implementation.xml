@@ -72,9 +72,9 @@ payload]]></ee:set-payload>
 output application/json
 ---
 {
-	passenger: payload.passenger,
 	origin: payload.bookingDetails.value.origin,
 	destination: payload.bookingDetails.value.destination,
+	service: payload.bookingDetails.value.plane.planeType
 }
 ]]></ee:set-payload>
 			</ee:message>
@@ -87,38 +87,31 @@ payload.passenger
 			</ee:variables>
 		</ee:transform>
 		<db:select doc:name="Select" doc:id="368d00de-5d64-4d34-8228-429cfdad4270" config-ref="Database_Config">
-			<db:sql ><![CDATA[select flightId from flights1 where origin= :origin and destination= :destination]]></db:sql>
+			<db:sql ><![CDATA[select flightId from flights1 where origin= :origin and destination= :destination and planeType= :service]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	origin: payload.origin,
-	destination : payload.destination
+	destination : payload.destination,
+	service: payload.service
 }]]]></db:input-parameters>
 		</db:select>
-		<ee:transform doc:name="Transform Message" doc:id="f5486d88-de17-4663-b64d-72e5902582fd" >
+		<set-variable value="#[payload.flightId[0]]" doc:name="Set Variable" doc:id="6e581e48-8095-4e91-81ff-01a56887c1ec" variableName="flightId"/>
+		<db:insert doc:name="Insert" doc:id="cdcda9b6-5194-4875-9a30-e86791bfce9f" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into booking (passenger,flightId) values (:pass, :id);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	pass: vars.passenger,
+	id: vars.flightId
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="7d6e5db0-3a41-4127-9bec-1aa39f199370" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	passenger: vars.passenger,
-	flightId: payload.flightId
+	Message: "Your flight has been booked successfully."
 }]]></ee:set-payload>
 			</ee:message>
-			<ee:variables >
-				<ee:set-variable variableName="flightId" ><![CDATA[%dw 2.0
-output application/json
----
-payload.flightId]]></ee:set-variable>
-			</ee:variables>
 		</ee:transform>
-		<db:insert doc:name="Insert" doc:id="c10b4a02-3d9a-48bd-8a3d-ec42f9fde287" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ( :name , :flightId )
-]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
-	name : vars.passenger,
-	flightId: vars.flightId
-}]]]></db:input-parameters>
-		</db:insert>
-		<logger level="INFO" doc:name="Logger" doc:id="e6ba9586-c3ae-4ee8-9edb-2418b28fe35f" message="#[payload]"/>
 	</flow>
 	<flow name="getBookingByID" doc:id="831b1ae5-db9a-4b22-b8cf-b00820ee52ac">
 		<db:select doc:name="GetBookingByID" doc:id="6b8f4adc-4ac0-428c-b7a4-1d331fc7d13d" config-ref="Database_Config">
