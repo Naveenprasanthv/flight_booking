@@ -206,23 +206,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="patch:\partners\(partnersId):application\json:flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="partnersId">attributes.uriParams.'partnersId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="bda7b0c7-f9d2-44a0-969b-d073509dd4e2" name="updatePartners"/>
     </flow>
     <flow name="patch:\partners\(partnersId):application\xml:flightbooking-config">
         <ee:transform>

@@ -1,0 +1,11 @@
+%dw 2.0
+
+type auto_eb839bee_f513_46f5_bf00_97853638bbc7_Input_Payload = {
+  partnerName: String, 
+  partnerId?: Number, 
+  services?: String, 
+  numberOfFlights?: Number, 
+  _?: Any
+} {"description": "Partner Details",
+"label": "Partner DataType"}
+
