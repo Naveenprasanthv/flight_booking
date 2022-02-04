@@ -121,61 +121,13 @@ output application/json
         </error-handler>
     </flow>
     <flow name="delete:\bookings\(bookingId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="bookingId">attributes.uriParams.'bookingId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="806b9e0b-14d6-4147-9bf4-6e9880842c62" name="deleteBookingsByID"/>
     </flow>
     <flow name="delete:\flights\(flightsId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="flightsId">attributes.uriParams.'flightsId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="24de8681-6340-4672-840e-cdd3287d8ea7" name="deleteFlightsByID"/>
     </flow>
     <flow name="delete:\partners\(partnersId):flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="partnersId">attributes.uriParams.'partnersId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="f2f76ad6-3cb7-4d5f-b022-191ec797bb22" name="deletePartnersByID"/>
     </flow>
     <flow name="patch:\bookings\(bookingId):application\json:flightbooking-config">
         <ee:transform>

@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_45aa3037_3b2a_498a_849f_26cc488cbc88_Output_Payload = {
+  message: String, 
+  _?: Any
+} {"description": "Status Responses",
+"label": "Status DataType"}
+
