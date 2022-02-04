@@ -130,23 +130,7 @@ output application/json
         <flow-ref doc:name="Flow Reference" doc:id="f2f76ad6-3cb7-4d5f-b022-191ec797bb22" name="deletePartnersByID"/>
     </flow>
     <flow name="patch:\bookings\(bookingId):application\json:flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="bookingId">attributes.uriParams.'bookingId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="19665b1c-a3e1-4183-8c59-e438ea56ff45" name="updateBookingsByID"/>
     </flow>
     <flow name="patch:\bookings\(bookingId):application\xml:flightbooking-config">
         <ee:transform>
@@ -168,23 +152,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="patch:\flights\(flightsId):application\json:flightbooking-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="flightsId">attributes.uriParams.'flightsId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="49ff66e1-3607-4c91-b832-e1d6c64e3764" name="updateFlightsByID"/>
     </flow>
     <flow name="patch:\flights\(flightsId):application\xml:flightbooking-config">
         <ee:transform>
@@ -206,7 +174,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="patch:\partners\(partnersId):application\json:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="bda7b0c7-f9d2-44a0-969b-d073509dd4e2" name="updatePartners"/>
+        <flow-ref doc:name="Flow Reference" doc:id="bda7b0c7-f9d2-44a0-969b-d073509dd4e2" name="updatePartnersByID"/>
     </flow>
     <flow name="patch:\partners\(partnersId):application\xml:flightbooking-config">
         <ee:transform>
@@ -228,7 +196,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="get:\bookings\(bookingId):flightbooking-config">
-		<flow-ref doc:name="getBookingByID" doc:id="7ad458eb-46f5-4e3b-aba4-4b32bade07be" name="getBookingByID"/>
+		<flow-ref doc:name="getBookingByID" doc:id="7ad458eb-46f5-4e3b-aba4-4b32bade07be" name="getBookingsByID"/>
     </flow>
     <flow name="get:\bookings:flightbooking-config">
         <flow-ref doc:name="GetBookings" doc:id="953ae924-9e48-416c-a064-0ba352149b4a" name="getBookings"/>

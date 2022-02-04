@@ -1,0 +1,19 @@
+%dw 2.0
+
+type auto_e6f08ab2_719b_4eb4_afaa_858a870c9956_Input_Payload = {
+  plane?: {
+    planeType?: String, 
+    totalSeats?: Number, 
+    _?: Any
+  }, 
+  code?: String, 
+  price?: Number, 
+  origin?: String, 
+  destination?: String, 
+  flightId?: Number, 
+  departureDate?: String, 
+  emptySeats?: Number, 
+  _?: Any
+} {"description": "Flight Details",
+"label": "Flight DataType"}
+
