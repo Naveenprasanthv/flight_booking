@@ -23,18 +23,30 @@ payload]]></ee:set-payload>
 	</flow>
 	<flow name="postFlights" doc:id="06b591d3-3294-4e2b-a8f8-fdabedc7c9b5" >
 		<db:insert doc:name="New Flight" doc:id="9f7f258a-e6af-47d1-b756-efc4850a2fe8" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ('Naveen', (select flightId from flights1 where origin='MAD' ));]]></db:sql>
+			<db:sql ><![CDATA[INSERT INTO flights1
+(code, price, origin, destination, departureDate, emptySeats, planeType, totalSeats)
+VALUES (:code,:price,:origin,:dest,:date,:seat,:types,:tSeats);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	code: payload.code,
+	price: payload.price,
+	dest: payload.destination,
+	origin: payload.origin,
+	date: payload.departureDate,
+	seat: payload.emptySeats,
+	types: payload.plane.planeType,
+	tSeats: payload.plane.totalSeats
+}]]]></db:input-parameters>
 		</db:insert>
 		<ee:transform doc:name="Json Payload" doc:id="b1798454-5f41-4375-a6da-49fdc5071251" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 {
+	Message: "Flight has been added successfully"
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="End" doc:id="24c14615-bb50-4371-9cd1-7a585d914b39" message="Flow Ended"/>
 	</flow>
 	<flow name="getFlightsByID" doc:id="53ea6587-eacf-49b3-93af-a2fe061aa1b3">
 		<db:select doc:name="GetFlightsByID" doc:id="5cb191a5-d0df-418d-9fb3-9bd208152232" config-ref="Database_Config">
@@ -144,18 +156,25 @@ payload]]></ee:set-payload>
 	</flow>
 	<flow name="postPartners" doc:id="7d263dfc-fe47-4f07-ab3f-2cdc9bd23823">
 		<db:insert doc:name="New Partner" doc:id="764e40b7-8006-40bc-a67e-df50548ec026" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into booking (passenger,flightId) values ('Naveen', (select flightId from flights1 where origin='MAD' ));]]></db:sql>
+			<db:sql ><![CDATA[INSERT INTO partners
+(partnerName,services,numberOfFlights)
+VALUES (:name,:service, :no)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	name: payload.partnerName,
+	service: payload.services,
+	no: payload.numberOfFlights
+}]]]></db:input-parameters>
 		</db:insert>
 		<ee:transform doc:name="Json Payload" doc:id="917a33bf-42a1-43a8-866e-1ae7032dde6e">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 {
+	Message: "Partner has been added successfully"
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="End" doc:id="519bbc9b-d206-4f28-861d-400b969fb29d" message="Flow Ended" />
 	</flow>
 	<flow name="getPartnersByID" doc:id="e85b349d-2904-4c2c-a87d-70b5e146549a" >
 		<db:select doc:name="GetPartnersByID" doc:id="de4991ad-8ee0-4b83-b755-299b519dcbe2" config-ref="Database_Config" >

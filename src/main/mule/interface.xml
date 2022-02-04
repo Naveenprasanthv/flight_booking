@@ -327,18 +327,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\flights:application\json:flightbooking-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="4f7d90b5-4ed9-4a6a-bd49-45543ff5f123" name="postFlights"/>
     </flow>
     <flow name="post:\flights:application\xml:flightbooking-config">
         <ee:transform>
@@ -355,18 +344,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\partners:application\json:flightbooking-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 404,
-  reasonPhrase: "Not Found",
-  details: "The requested resource is not found"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="53bc2d13-3ffb-420f-ab1c-2d85c42a8190" name="postPartners"/>
     </flow>
     <flow name="post:\partners:application\xml:flightbooking-config">
         <ee:transform>
