@@ -4,7 +4,7 @@
 
 	<groupId>79b6d976-d987-4260-a238-6a2e69a08812</groupId>
 	<artifactId>flight-booking</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>mule-application</packaging>
 
 	<name>flight-booking</name>
@@ -92,6 +92,13 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.48</version>
+		</dependency>
+		<dependency>
+			<groupId>a48df65f-4162-4f7b-b907-b5f038686e7a</groupId>
+			<artifactId>flightbooking</artifactId>
+			<version>1.0.4</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 

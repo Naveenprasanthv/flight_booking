@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
     <apikit:config name="flightbooking-config" api="flightbooking.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="flightbooking-main">
         <http:listener path="/api/*" config-ref="HTTP_Listener_config">
@@ -104,7 +104,7 @@ output application/json
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="flightbooking-config" />
-		<error-handler>
+        <error-handler>
             <on-error-propagate type="APIKIT:NOT_FOUND">
                 <ee:transform>
                     <ee:message>
@@ -121,16 +121,16 @@ output application/json
         </error-handler>
     </flow>
     <flow name="delete:\bookings\(bookingId):flightbooking-config">
-		<flow-ref doc:name="Flow Reference" doc:id="806b9e0b-14d6-4147-9bf4-6e9880842c62" name="deleteBookingsByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="806b9e0b-14d6-4147-9bf4-6e9880842c62" name="deleteBookingsByID" />
     </flow>
     <flow name="delete:\flights\(flightsId):flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="24de8681-6340-4672-840e-cdd3287d8ea7" name="deleteFlightsByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="24de8681-6340-4672-840e-cdd3287d8ea7" name="deleteFlightsByID" />
     </flow>
     <flow name="delete:\partners\(partnersId):flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="f2f76ad6-3cb7-4d5f-b022-191ec797bb22" name="deletePartnersByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="f2f76ad6-3cb7-4d5f-b022-191ec797bb22" name="deletePartnersByID" />
     </flow>
     <flow name="patch:\bookings\(bookingId):application\json:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="19665b1c-a3e1-4183-8c59-e438ea56ff45" name="updateBookingsByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="19665b1c-a3e1-4183-8c59-e438ea56ff45" name="updateBookingsByID" />
     </flow>
     <flow name="patch:\bookings\(bookingId):application\xml:flightbooking-config">
         <ee:transform>
@@ -152,7 +152,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="patch:\flights\(flightsId):application\json:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="49ff66e1-3607-4c91-b832-e1d6c64e3764" name="updateFlightsByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="49ff66e1-3607-4c91-b832-e1d6c64e3764" name="updateFlightsByID" />
     </flow>
     <flow name="patch:\flights\(flightsId):application\xml:flightbooking-config">
         <ee:transform>
@@ -174,7 +174,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="patch:\partners\(partnersId):application\json:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="bda7b0c7-f9d2-44a0-969b-d073509dd4e2" name="updatePartnersByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="bda7b0c7-f9d2-44a0-969b-d073509dd4e2" name="updatePartnersByID" />
     </flow>
     <flow name="patch:\partners\(partnersId):application\xml:flightbooking-config">
         <ee:transform>
@@ -196,25 +196,25 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="get:\bookings\(bookingId):flightbooking-config">
-		<flow-ref doc:name="getBookingByID" doc:id="7ad458eb-46f5-4e3b-aba4-4b32bade07be" name="getBookingsByID"/>
+        <flow-ref doc:name="getBookingByID" doc:id="7ad458eb-46f5-4e3b-aba4-4b32bade07be" name="getBookingsByID" />
     </flow>
     <flow name="get:\bookings:flightbooking-config">
-        <flow-ref doc:name="GetBookings" doc:id="953ae924-9e48-416c-a064-0ba352149b4a" name="getBookings"/>
+        <flow-ref doc:name="GetBookings" doc:id="953ae924-9e48-416c-a064-0ba352149b4a" name="getBookings" />
     </flow>
     <flow name="get:\flights\(flightsId):flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="c2cc0c37-3d07-499c-aefc-4f582c78d251" name="getFlightsByID"/>
+        <flow-ref doc:name="Flow Reference" doc:id="c2cc0c37-3d07-499c-aefc-4f582c78d251" name="getFlightsByID" />
     </flow>
     <flow name="get:\flights:flightbooking-config">
-        <flow-ref doc:name="GetFlights" doc:id="c2d59f60-251b-402f-ae41-8543b179117a" name="getFlights"/>
+        <flow-ref doc:name="GetFlights" doc:id="c2d59f60-251b-402f-ae41-8543b179117a" name="getFlights" />
     </flow>
     <flow name="get:\partners\(partnersId):flightbooking-config">
-		<flow-ref doc:name="getPartnersByID" doc:id="bfac59ad-1bed-475f-bbde-fff5fec4c1fc" name="getPartnersByID"/>
+        <flow-ref doc:name="getPartnersByID" doc:id="bfac59ad-1bed-475f-bbde-fff5fec4c1fc" name="getPartnersByID" />
     </flow>
     <flow name="get:\partners:flightbooking-config">
-        <flow-ref doc:name="getPartners" doc:id="6f828bfe-cb30-4dde-9f2b-7e87fa0f85e2" name="getPartners"/>
+        <flow-ref doc:name="getPartners" doc:id="6f828bfe-cb30-4dde-9f2b-7e87fa0f85e2" name="getPartners" />
     </flow>
     <flow name="post:\bookings:application\json:flightbooking-config">
-		<flow-ref doc:name="Flow Reference" doc:id="779b5c6b-d465-4ddc-8a77-002a137c6089" name="postBookings"/>
+        <flow-ref doc:name="Flow Reference" doc:id="779b5c6b-d465-4ddc-8a77-002a137c6089" name="postBookings" />
     </flow>
     <flow name="post:\bookings:application\xml:flightbooking-config">
         <ee:transform>
@@ -231,7 +231,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\flights:application\json:flightbooking-config">
-        <flow-ref doc:name="Flow Reference" doc:id="4f7d90b5-4ed9-4a6a-bd49-45543ff5f123" name="postFlights"/>
+        <flow-ref doc:name="Flow Reference" doc:id="4f7d90b5-4ed9-4a6a-bd49-45543ff5f123" name="postFlights" />
     </flow>
     <flow name="post:\flights:application\xml:flightbooking-config">
         <ee:transform>
@@ -248,7 +248,7 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\partners:application\json:flightbooking-config">
-		<flow-ref doc:name="Flow Reference" doc:id="53bc2d13-3ffb-420f-ab1c-2d85c42a8190" name="postPartners"/>
+        <flow-ref doc:name="Flow Reference" doc:id="53bc2d13-3ffb-420f-ab1c-2d85c42a8190" name="postPartners" />
     </flow>
     <flow name="post:\partners:application\xml:flightbooking-config">
         <ee:transform>
