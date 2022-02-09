@@ -8,6 +8,11 @@ protocols:
   - HTTPS
   - HTTP
 
+securitySchemes:
+  clientIDSecret: !include Security/ClientSecurityScheme.raml
+securedBy:
+  - clientIDSecret
+
 documentation:
   - !include documentation/FlightBookingDoc.raml
 

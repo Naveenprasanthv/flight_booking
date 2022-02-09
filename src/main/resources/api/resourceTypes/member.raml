@@ -17,6 +17,7 @@ patch?:
       displayName: PATCH <<resourcePathName | !uppercamelcase | !singularize>>  
       description: Update a specific <<resourcePathName | !uppercamelcase | !singularize>> 
       is:
+      - traitsLib.hasAcceptHeader
       - traitsLib.hasError: {errorCode: 500}
       body:
         dataTypesLib.<<resourcePathName | !uppercamelcase | !singularize>> 

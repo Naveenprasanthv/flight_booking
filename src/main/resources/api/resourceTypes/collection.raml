@@ -18,6 +18,7 @@ post?:
     displayName: POST <<resourcePathName | !uppercamelcase | !singularize>> 
     description: Add a new <<resourcePathName | !uppercamelcase | !singularize>> 
     is:
+      - traitsLib.hasAcceptHeader
       - traitsLib.hasError: {errorCode: 500}
     headers:
       Content-Type: 
