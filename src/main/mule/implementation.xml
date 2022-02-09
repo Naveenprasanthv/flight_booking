@@ -43,7 +43,7 @@ VALUES (:code,:price,:origin,:dest,:date,:seat,:types,:tSeats);]]></db:sql>
 output application/json
 ---
 {
-	Message: "Flight has been added successfully."
+	Message: "Flight has been added successfully"
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
