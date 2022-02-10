@@ -4,9 +4,9 @@ http:
 
 mysql:
   server: "sql6.freemysqlhosting.net"
-  dbname: "sql6470089"
-  username: "sql6470089"
-  password: "4eYEIs3lFb"
+  dbname: "sql6471765"
+  username: "sql6471765"
+  password: "QkZ4LRCCxc"
   port: "3306"
 
 
