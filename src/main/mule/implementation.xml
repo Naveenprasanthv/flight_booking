@@ -110,15 +110,6 @@ payload]]></ee:set-payload>
 	<flow name="postBookings" doc:id="f04f09b7-6595-4677-9da9-dcd8a27695c4">
 		<ee:transform doc:name="Transform Message" doc:id="4865c673-80db-454e-9248-3dc84d616264" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	origin: payload.bookingDetails.value.origin,
-	destination: payload.bookingDetails.value.destination,
-	service: payload.bookingDetails.value.plane.planeType
-}
-]]></ee:set-payload>
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable variableName="passenger" ><![CDATA[%dw 2.0
@@ -126,27 +117,48 @@ output application/json
 ---
 payload.passenger
 ]]></ee:set-variable>
+				<ee:set-variable variableName="pay" ><![CDATA[{
+	origin: payload.origin,
+	destination: payload.destination,
+	service: payload.planeType
+}
+]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<db:select doc:name="Select" doc:id="368d00de-5d64-4d34-8228-429cfdad4270" config-ref="Database_Config">
 			<db:sql ><![CDATA[select flightId from flights1 where origin= :origin and destination= :destination and planeType= :service]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	origin: payload.origin,
-	destination : payload.destination,
-	service: payload.service
+	origin: vars.pay.origin,
+	destination: vars.pay.destination,
+	service: vars.pay.service
 }]]]></db:input-parameters>
 		</db:select>
 		<set-variable value="#[payload.flightId[0]]" doc:name="Set Variable" doc:id="6e581e48-8095-4e91-81ff-01a56887c1ec" variableName="flightId"/>
-		<db:insert doc:name="Insert" doc:id="cdcda9b6-5194-4875-9a30-e86791bfce9f" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into booking (passenger,flightId) values (:pass, :id);]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
+		<choice doc:name="Choice" doc:id="7028d22b-082f-46f4-8a92-6e830e10ea62" >
+			<when expression="#[vars.flightId == null]">
+				<ee:transform doc:name="Transform Message" doc:id="5e62836b-270f-4b4f-bdbc-5775000604aa" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Message: "OOPS, it seems flights are not available from " ++ vars.pay.origin as String ++ " to "
+	++ vars.pay.destination as String
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<db:insert doc:name="Insert" doc:id="cdcda9b6-5194-4875-9a30-e86791bfce9f" config-ref="Database_Config">
+			<db:sql><![CDATA[insert into booking (passenger,flightId) values (:pass, :id);]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
 	pass: vars.passenger,
 	id: vars.flightId
 }]]]></db:input-parameters>
 		</db:insert>
-		<ee:transform doc:name="Transform Message" doc:id="7d6e5db0-3a41-4127-9bec-1aa39f199370" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+				<ee:transform doc:name="Transform Message" doc:id="7d6e5db0-3a41-4127-9bec-1aa39f199370">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -154,6 +166,8 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+			</otherwise>
+		</choice>
 	</flow>
 	<flow name="getBookingsByID" doc:id="831b1ae5-db9a-4b22-b8cf-b00820ee52ac">
 		<db:select doc:name="GetBookingByID" doc:id="6b8f4adc-4ac0-428c-b7a4-1d331fc7d13d" config-ref="Database_Config">
