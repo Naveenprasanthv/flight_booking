@@ -3,10 +3,10 @@ http:
   host: "localhost"
 
 mysql:
-  server: "sql6.freemysqlhosting.net"
-  dbname: "sql6471765"
-  username: "sql6471765"
-  password: "QkZ4LRCCxc"
+  host: "sql6.freemysqlhosting.net"
+  db: "sql6473498"
+  user: "sql6473498"
+  pass: "sql6473498"
   port: "3306"
 
 
