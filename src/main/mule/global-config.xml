@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="dc76e573-a303-4e6a-8c4e-efb244494a59" file="config.yaml" />
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="ffa39de2-59f8-49d8-aa05-76e92b7a9873">
-		<db:my-sql-connection host="${mysql.server}" port="${mysql.port}" user="${mysql.username}" password="${mysql.password}" database="${mysql.dbname}" />
+		<db:my-sql-connection host="${mysql.host}" port="${mysql.port}" user="${mysql.user}" password="${mysql.pass}" database="${mysql.db}" />
 	</db:config>
 	<api-gateway:autodiscovery apiId="17620191" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="286374b4-d958-47cb-8848-fce4b759ca8d" flowRef="flightbooking-main" />
 </mule>
